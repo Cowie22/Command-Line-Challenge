@@ -62,14 +62,11 @@ getTruckData = () => {
         let formatStartTime = formatTime(starttime);
         let formatEndTime = formatTime(endtime);
         // Filter to ensure the food trucks from the proper day and time are displayed
-        dayofweekstr === currentDay ?
+        dayofweekstr === currentDay && hours >= formatStartTime && hours <= formatEndTime ?
         displayArr.push(`${colors.title('NAME:')} ${colors.value(applicant)}, ${colors.title('LOCATION:')} ${colors.value(location)}`)
         :
         null;
       });
-      // for (let i = 0; i < 10; i++) {
-      //   console.log(displayArr[i]);
-      // }
     });
 }
 
@@ -88,7 +85,7 @@ let callCount = 0;
 // Retrieved and pushed into displayArr, and then this function simply displays 10 food trucks at a time
 const displayTenFoodTrucks = () => {
   for (let i = 10 * callCount; i < 10 * callCount + 10; i++) {
-    console.log(displayArr[i]);
+    displayArr.length > 0 ? console.log(displayArr[i]) : console.log('NO FOOD TRUCKS OPEN');
   }
   // Increases callCount with each consecutive call
   // First 10 food trucks will be displayed, then this question is asked in the terminal

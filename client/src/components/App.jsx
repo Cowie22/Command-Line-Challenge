@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import FoodTruck from './TruckDisplay/FoodTruck.jsx';
 
 // URL and query parameters for the API with pertinent data
 const URL = 'https://data.sfgov.org/resource/jjew-r69b.json?$$app_token=KBlOTi2gKbzyLr40mb0dLT0ND'
@@ -37,6 +38,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       food: [],
+      filterData: [],
     };
   }
   componentDidMount() {
@@ -44,6 +46,7 @@ class App extends React.Component {
     this.getTruckData()
   }
   getTruckData() {
+    let filtered = [];
     axios.get(URL)
       .then(res => {
         // Sorts the API data alphabetically
@@ -59,22 +62,25 @@ class App extends React.Component {
           let formatStartTime = formatTime(starttime);
           let formatEndTime = formatTime(endtime);
           // Filter to ensure the food trucks from the proper day and time are displayed
-          dayofweekstr === currentDay && hours >= formatStartTime && hours <= formatEndTime ?
-          console.log(`NAME: ${applicant}, LOCATION: ${location}, start:${formatStartTime}, startactual:${starttime},
-          end:${formatEndTime}, endactual:${endtime}
-          `)
+          dayofweekstr === currentDay ?
+          filtered.push(foodTruck)
           :
           null;
         })
         this.setState({
-          food: res.data
+          food: res.data,
+          filterData: filtered,
         })
       })
   }
   render() {
     return (
-      <div>
-        Hello Cow
+      <div className="app-container">
+        <h1>CURRENT OPEN FOOD TRUCKS</h1>
+        <h2>San Francisco, California</h2>
+        <FoodTruck
+          filterData={this.state.filterData}
+        />
       </div>
     )
   }

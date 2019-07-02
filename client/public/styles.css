@@ -2,3 +2,60 @@ body {
   background: black;
   color: white;
 }
+
+/* Handles the display and more food trucks are displayed on user's scroll */
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  width: 800px;
+  height: 600px;
+  margin-top: 20px;
+  position: absolute;
+  right: 24%;
+}
+
+h1 {
+  color: cyan;
+  font-weight: bold;
+}
+
+h2 {
+  color: rgb(34, 206, 34);
+  font-weight: bold;
+}
+
+.display-container {
+  overflow: scroll;
+  border: solid white 1px;
+  display: flex;
+  flex-direction: column;
+}
+
+.table-header {
+  color: cyan;
+  padding-bottom: 40px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.name {
+  display: flex;
+  flex-direction: flex-start;
+}
+
+.location {
+  justify-content: right;
+  text-align: end;
+}
+
+.food-truck-entry {
+  border-bottom: solid cyan 1px;
+  background: rgba(196, 199, 204, 0.4);
+  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: bold;
+}
