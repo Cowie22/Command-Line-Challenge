@@ -52,6 +52,10 @@ h2 {
   text-align: end;
 }
 
+.closes {
+  color: red;
+}
+
 .food-truck-entry {
   border-bottom: solid cyan 1px;
   background: rgba(196, 199, 204, 0.4);

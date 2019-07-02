@@ -30,7 +30,6 @@ const currentDay = weekday[newDate.getDay()];
 
 // Gets the current time and formats to military time just grabbing the hours
 const hours = newDate.getHours();
-// const formattedHours = hours < 12 ? `${hours}AM` : hours === 12 ? `${hours}PM` : `${hours - 12}PM`;
 
 // Helper function used to format the API starttime and endtime, so that it can
 // Be compared to const hours above
@@ -62,11 +61,14 @@ getTruckData = () => {
         let formatStartTime = formatTime(starttime);
         let formatEndTime = formatTime(endtime);
         // Filter to ensure the food trucks from the proper day and time are displayed
-        dayofweekstr === currentDay && hours >= formatStartTime && hours <= formatEndTime ?
+        dayofweekstr === currentDay && hours >= formatStartTime && hours < formatEndTime ?
         displayArr.push(`${colors.title('NAME:')} ${colors.value(applicant)}, ${colors.title('LOCATION:')} ${colors.value(location)}`)
         :
         null;
       });
+    })
+    .catch(err => {
+      console.log('error', err);
     });
 }
 
@@ -104,9 +106,13 @@ const startCommandLine = new Promise((resolve, reject) => {
   getTruckData();
   setTimeout(() => {
     resolve('SUCCESS')
-  }, 7000)
-})
+  }, 7000);
+});
+
 startCommandLine
   .then(() => {
   displayTenFoodTrucks()
-});
+  })
+  .catch(err => {
+    console.log('error', err)
+  });

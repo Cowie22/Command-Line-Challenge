@@ -20,7 +20,6 @@ const currentDay = weekday[newDate.getDay()];
 
 // Gets the current time and formats to military time just grabbing the hours
 const hours = newDate.getHours();
-// const formattedHours = hours < 12 ? `${hours}AM` : hours === 12 ? `${hours}PM` : `${hours - 12}PM`;
 
 // Helper function used to format the API starttime and endtime, so that it can
 // Be compared to const hours above
@@ -57,13 +56,13 @@ class App extends React.Component {
         });
         sortedData.filter((foodTruck, i) => {
           // Destructuring so that I don't have to write foodTruck. everytime.
-          const { starttime, endtime, dayofweekstr, applicant, location } = foodTruck;
+          const { starttime, endtime, dayofweekstr } = foodTruck;
           // Formats start and end times using helper function declared above
           let formatStartTime = formatTime(starttime);
           let formatEndTime = formatTime(endtime);
           // Filter to ensure the food trucks from the proper day and time are displayed
-          dayofweekstr === currentDay ?
-          filtered.push(foodTruck)
+          dayofweekstr === currentDay && hours >= formatStartTime
+          && hours < formatEndTime ? filtered.push(foodTruck)
           :
           null;
         })
