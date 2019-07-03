@@ -27,10 +27,11 @@ more trucks can be seen on user scroll.
 From the directory of the Program '/Command-Line-Challenge' run `npm install`
 2. To run the program:
 From the directory of the Program '/Command-Line-Challenge' run `node Command-Line-Script/command.js`
-3. The first display will take 10 seconds to show as I set this using set timeout
-to ensure that the data is retrieved before the display function is run
+3. The first display will take a little time, as the promise needs to finish retrieving data before
+the display function can run
 4. After this you will be prompted to answer the question `Show More Food Trucks? Y or N :`
-Answering Y will show 10 more food trucks if that many are currently open
+Answering Y will show 10 more food trucks if that many are currently open,
+this action will be nearly instant
 Otherwise the readline closes and the process (steps 2 - 4) can be repeated
 ```
 

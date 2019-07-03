@@ -46,7 +46,7 @@ const formatTime = (timeStr) => {
 let displayArr = [];
 // Main function for the entire program.  Handles which food trucks are displayed in the terminal
 getTruckData = () => {
-  axios.get(URL)
+  return axios.get(URL)
     .then(res => {
       // Sorts the API data alphabetically
       const sortedData = res.data.sort((a, b) => {
@@ -68,7 +68,7 @@ getTruckData = () => {
       });
     })
     .catch(err => {
-      console.log('error', err);
+      console.log('ERROR', err);
     });
 }
 
@@ -100,19 +100,16 @@ const displayTenFoodTrucks = () => {
   });
 }
 
-// Promise set up so that the data is retrieved from the API before anything is displayed
-// Long set timeout used because initial request and filtering takes a little while
-const startCommandLine = new Promise((resolve, reject) => {
-  getTruckData();
-  setTimeout(() => {
-    resolve('SUCCESS')
-  }, 7000);
-});
+// Promise set up so that the data is retrieved from the API before anything is displayed in the terminal
+// Without it the first call would have no information to display
 
-startCommandLine
-  .then(() => {
-  displayTenFoodTrucks()
-  })
-  .catch(err => {
-    console.log('error', err)
-  });
+const startCommandLine = async () => {
+  await getTruckData()
+    .then(() => {
+      displayTenFoodTrucks();
+    })
+    .catch((err) => {
+      console.log('ERROR', err)
+    })
+}
+startCommandLine();
