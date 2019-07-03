@@ -1,5 +1,5 @@
 const axios = require('axios');
-// Sets up readline for input and output based on user input
+
 const readline = require('readline').createInterface({
   input: process.stdin,
   output: process.stdout
@@ -12,23 +12,23 @@ colors.setTheme({
   value: 'green',
 });
 
-// URL and query parameters for the API with pertinent data
 const URL = 'https://data.sfgov.org/resource/jjew-r69b.json?$$app_token=KBlOTi2gKbzyLr40mb0dLT0ND';
-// Creates new date in order to get the proper data on program run
+
 const newDate = new Date();
-// Formats the data into an array so that real day names can be compared to the API data
-const weekday = new Array(7);
-weekday[0] =  "Sunday";
-weekday[1] = "Monday";
-weekday[2] = "Tuesday";
-weekday[3] = "Wednesday";
-weekday[4] = "Thursday";
-weekday[5] = "Friday";
-weekday[6] = "Saturday";
+
+const weekday =[
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
+
 // Defines the current day so that it can be compared with API data
 const currentDay = weekday[newDate.getDay()];
 
-// Gets the current time and formats to military time just grabbing the hours
 const hours = newDate.getHours();
 
 // Helper function used to format the API starttime and endtime, so that it can
@@ -55,13 +55,12 @@ getTruckData = () => {
         return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
       });
       sortedData.filter((foodTruck, i) => {
-        // Destructuring so that I don't have to write 'foodTruck.' every time it needs to be used.
         const { starttime, endtime, dayofweekstr, applicant, location } = foodTruck;
-        // Formats start and end times using helper function declared above
         let formatStartTime = formatTime(starttime);
         let formatEndTime = formatTime(endtime);
-        // Filter to ensure the food trucks from the proper day and time are displayed
-        dayofweekstr === currentDay && hours >= formatStartTime && hours < formatEndTime ?
+        const truckIsOpen = dayofweekstr === currentDay && hours >= formatStartTime && hours < formatEndTime;
+
+        truckIsOpen ?
         displayArr.push(`${colors.title('NAME:')} ${colors.value(applicant)}, ${colors.title('LOCATION:')} ${colors.value(location)}`)
         :
         null;
@@ -109,7 +108,7 @@ const startCommandLine = async () => {
       displayTenFoodTrucks();
     })
     .catch((err) => {
-      console.log('ERROR', err)
+      console.log('ERROR', err);
     })
 }
 startCommandLine();

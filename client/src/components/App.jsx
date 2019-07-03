@@ -2,23 +2,22 @@ import React from 'react';
 import axios from 'axios';
 import FoodTruck from './TruckDisplay/FoodTruck.jsx';
 
-// URL and query parameters for the API with pertinent data
 const URL = 'https://data.sfgov.org/resource/jjew-r69b.json?$$app_token=KBlOTi2gKbzyLr40mb0dLT0ND'
-// Creates new date in order to get the proper data on program run
+
 const newDate = new Date();
-// Formats the data into an array so that real day names can be compared to the API data
-const weekday = new Array(7);
-weekday[0] =  "Sunday";
-weekday[1] = "Monday";
-weekday[2] = "Tuesday";
-weekday[3] = "Wednesday";
-weekday[4] = "Thursday";
-weekday[5] = "Friday";
-weekday[6] = "Saturday";
-// Defines the current day so that it can be compared with API data
+
+const weekday =[
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
+
 const currentDay = weekday[newDate.getDay()];
 
-// Gets the current time and formats to military time just grabbing the hours
 const hours = newDate.getHours();
 
 // Helper function used to format the API starttime and endtime, so that it can
@@ -41,7 +40,6 @@ class App extends React.Component {
     };
   }
   componentDidMount() {
-    // Calls the axios API request
     this.getTruckData()
   }
   getTruckData() {
@@ -55,16 +53,12 @@ class App extends React.Component {
           return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
         });
         sortedData.filter((foodTruck, i) => {
-          // Destructuring so that I don't have to write foodTruck. everytime.
           const { starttime, endtime, dayofweekstr } = foodTruck;
-          // Formats start and end times using helper function declared above
           let formatStartTime = formatTime(starttime);
           let formatEndTime = formatTime(endtime);
-          // Filter to ensure the food trucks from the proper day and time are displayed
-          dayofweekstr === currentDay && hours >= formatStartTime
-          && hours < formatEndTime ? filtered.push(foodTruck)
-          :
-          null;
+          const truckIsOpen = dayofweekstr === currentDay && hours >= formatStartTime && hours < formatEndTime;
+
+          truckIsOpen ? filtered.push(foodTruck) : null;
         })
         this.setState({
           food: res.data,
